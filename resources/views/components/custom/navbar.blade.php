@@ -1,4 +1,4 @@
-<nav class="sticky top-0 z-50 bg-white dark:bg-[#1a1a1b] border-b border-gray-200 dark:border-gray-800">
+<nav class="sticky top-0 z-50 bg-white dark:bg-[#1a1a1b] border-b border-gray-200 dark:border-gray-800 overflow-visible">
 
     <div class="max-w-7xl mx-auto px-4">
 
@@ -39,8 +39,6 @@
 
             <!-- RIGHT SIDE -->
             <div class="flex items-center gap-4">
-
-
                 @auth
 
                     <!-- CREATE POST -->
@@ -52,7 +50,6 @@
                         Post
                     </a>
 
-
                     <!-- NOTIFICATIONS -->
                     <button
                         class="relative text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition">
@@ -61,16 +58,16 @@
 
                     </button>
 
-
                     <!-- USER DROPDOWN -->
-                    <div class="relative group">
+                    <div class="relative inline-block">
 
-                        <button
+                        <!-- BUTTON -->
+                        <button id="userMenuBtn"
                             class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition">
 
                             <div
-                                class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-sm font-bold">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                class="w-8 h-8 rounded-full">
+                                <img class="w-8 h-8 rounded-full" src="{{ Storage::url(Auth::user()->profile_photo_path) }}"></img>
                             </div>
 
                             <span class="hidden md:block text-sm">
@@ -78,15 +75,16 @@
                             </span>
 
                             <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
-
                         </button>
 
-
                         <!-- DROPDOWN -->
-                        <div
-                            class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a1b] border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
+                        <div id="userMenu"
+                            class="hidden absolute right-0 top-full mt-2 w-48 z-50
+               bg-white dark:bg-[#1a1a1b]
+               border border-gray-200 dark:border-gray-800
+               rounded-xl shadow-lg">
 
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
+                            <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
                                 Profile
                             </a>
 
@@ -100,9 +98,7 @@
                                     Logout
                                 </button>
                             </form>
-
                         </div>
-
                     </div>
 
                 @endauth
@@ -129,3 +125,17 @@
         </div>
     </div>
 </nav>
+<script>
+    const btn = document.getElementById('userMenuBtn');
+    const menu = document.getElementById('userMenu');
+
+    btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+</script>

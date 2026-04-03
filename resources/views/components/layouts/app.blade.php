@@ -39,6 +39,8 @@
             </header>
         @endif
 
+        <livewire:main.side-bar />
+
         <main>
             {{ $slot }}
         </main>

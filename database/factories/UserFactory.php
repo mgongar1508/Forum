@@ -4,8 +4,11 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
+use Bilions\FakerImages\FakerImageProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
@@ -26,6 +29,9 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        fake()->addProvider(new FakerImageProvider(fake()));
+        $image = fake()->image(sys_get_temp_dir(), 640, 480);
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -34,7 +40,7 @@ class UserFactory extends Factory
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
+            'profile_photo_path' => Storage::putFileAs('images/', new File($image), basename($image)),
             'current_team_id' => null,
         ];
     }

@@ -19,9 +19,8 @@ return new class extends Migration
 
             $table->enum('type', ['Like', 'Dislike']);
 
-            $table->timestamp('created_at')->nullable();
-
             $table->unique(['user_id', 'post_id']);
+            $table->timestamps();
         });
     }
 

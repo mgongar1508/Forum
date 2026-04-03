@@ -20,19 +20,19 @@ class User extends Authenticatable
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use HasProfilePhoto;
+    use HasRoles;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-
     protected $guard_name = 'web';
-    
+
     protected $fillable = [
         'name',
         'email',
@@ -79,7 +79,7 @@ class User extends Authenticatable
     }
 
     // User's comments
-    public function comments():MorphMany
+    public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
@@ -89,13 +89,18 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'followed_user_id', 'following_user_id');
     }
 
-    public function following():BelongsToMany
+    public function following(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'followed_user_id');
     }
 
-    public function subforums():BelongsToMany
+    public function subforums(): BelongsToMany
     {
         return $this->belongsToMany(Subforum::class)->withPivot('notify_new_posts')->withTimestamps();
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class);
     }
 }
