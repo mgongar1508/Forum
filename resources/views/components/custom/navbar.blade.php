@@ -42,13 +42,7 @@
                 @auth
 
                     <!-- CREATE POST -->
-                    <a href="#"
-                        class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full
-                            bg-orange-500 text-white text-sm font-medium
-                            hover:bg-orange-600 transition">
-                        <i class="fa-solid fa-plus"></i>
-                        Post
-                    </a>
+                    @livewire('post.create-post')
 
                     <!-- NOTIFICATIONS -->
                     <button

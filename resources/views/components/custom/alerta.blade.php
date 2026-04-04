@@ -1,4 +1,4 @@
-@session('mensaje')
+@session('message')
     <script>
         Swal.fire({
             icon: "success",

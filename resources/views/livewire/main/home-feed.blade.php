@@ -36,25 +36,44 @@
                 </div>
             </a>
 
-            <div class="flex items-center gap-6 text-sm text-gray-500">
+            <div class="flex items-center justify-between text-sm text-gray-500">
 
-                <button wire:click="likePost({{ $post->id }}, 'Like')"
-                    class="hover:text-red-500 transition transform hover:scale-110 {{ $userLike?->type === 'Like' ? 'text-red-500' : '' }}">
-                    ▲ {{ $likes }}
-                </button>
+                {{-- LEFT SIDE --}}
+                <div class="flex items-center gap-2">
+                    <i wire:click="likePost({{ $post->id }}, 'Like')"
+                        class="fa-solid fa-arrow-up cursor-pointer hover:text-red-500 transition transform hover:scale-110 {{ $userLike?->type === 'Like' ? 'text-red-500' : '' }}"></i>
+                    <span class="text-gray-200 font-semibold">{{ $likes }}</span>
 
-                <button wire:click="likePost({{ $post->id }}, 'Dislike')"
-                    class="hover:text-blue-600 transition transform hover:scale-110 {{ $userLike?->type === 'Dislike' ? 'text-blue-600' : '' }}">
-                    ▼ {{ $dislikes }}
-                </button>
+                    <i wire:click="likePost({{ $post->id }}, 'Dislike')"
+                        class="fa-solid fa-arrow-down cursor-pointer hover:text-blue-600 transition transform hover:scale-110 {{ $userLike?->type === 'Dislike' ? 'text-blue-600' : '' }}"></i>
+                    <span class="text-gray-200 font-semibold">{{ $dislikes }}</span>
 
-                @foreach ($post->tags as $tag)
-                    <button class="rounded transition" style="color: {{ $tag->color }};">
-                        {{ $tag->name }}
-                    </button>
-                @endforeach
+                    <div class="ml-6 flex gap-2">
+                        @foreach ($post->tags as $tag)
+                            <button class="rounded transition" style="color: {{ $tag->color }};">
+                                {{ $tag->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
+
         </article>
     @endforeach
+    <div x-data="{
+        init() {
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        @this.call('loadMore');
+                    }
+                });
+            });
+    
+            observer.observe(this.$el);
+        }
+    }" class="h-10">
+    </div>
+
 
 </x-custom.base>

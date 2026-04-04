@@ -1,12 +1,17 @@
 <x-custom.base>
+    @php
+        $likes = $post->likes->where('type', 'Like')->count();
+        $dislikes = $post->likes->where('type', 'Dislike')->count();
+        $userLike = $post->likes->firstWhere('user_id', auth()->id());
+    @endphp
     <div class="max-w-3xl mx-auto p-4 space-y-6 text-gray-200">
 
         <!-- Post Header -->
         <div class="flex items-center gap-3 text-sm text-gray-400">
-            <img src="https://via.placeholder.com/32" class="w-8 h-8 rounded-full" />
-            <span class="font-semibold text-gray-300">u/username</span>
+            <img src="{{ Storage::url($post->user->profile_photo_path) }}" class="w-8 h-8 rounded-full" />
+            <span class="font-semibold text-gray-300">{{ $post->user->name }}</span>
             <span>•</span>
-            <span>5 hours ago</span>
+            <span>{{ $post->created_at }}</span>
         </div>
 
         <!-- Post Title -->
@@ -57,11 +62,15 @@
 
             <!-- Upvote / Downvote -->
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-arrow-up cursor-pointer hover:text-orange-400"></i>
-                <span class="text-gray-200 font-semibold">324</span>
-                <i class="fa-solid fa-arrow-down cursor-pointer hover:text-blue-400"></i>
+                <i wire:click="likePost({{ $post->id }}, 'Like')"
+                    class="fa-solid fa-arrow-up cursor-pointer hover:text-red-500 transition transform hover:scale-110 {{ $userLike?->type === 'Like' ? 'text-red-500' : '' }}"></i>
+                <span class="text-gray-200 font-semibold">{{ $likes }}</span>
+
+                <i wire:click="likePost({{ $post->id }}, 'Dislike')"
+                    class="fa-solid fa-arrow-down cursor-pointer hover:text-blue-600 transition transform hover:scale-110 {{ $userLike?->type === 'Dislike' ? 'text-blue-600' : '' }}"></i>
+                <span class="text-gray-200 font-semibold">{{ $dislikes }}</span>
             </div>
-            
+
             <!-- Share -->
             <button class="flex items-center gap-2 hover:text-gray-200">
                 <i class="fa-solid fa-share"></i>
@@ -73,6 +82,13 @@
                 <i class="fa-regular fa-bookmark"></i>
                 <span class="text-sm">Save</span>
             </button>
+
+            @if (auth()->user()->hasRole('admin') || auth()->id() === $post->user_id)
+                <button wire:click="deletePost({{ $post->id }})"
+                    class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm">
+                    <i class="fa-solid fa-trash mr-1"></i> Delete
+                </button>
+            @endif
 
         </div>
 
