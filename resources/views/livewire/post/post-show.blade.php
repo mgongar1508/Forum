@@ -12,6 +12,11 @@
             <span class="font-semibold text-gray-300">{{ $post->user->name }}</span>
             <span>•</span>
             <span>{{ $post->created_at }}</span>
+            @if (auth()->user()->hasRole('admin') || Auth::id() === $post->user_id)
+                <div>
+                    @livewire('post.update-post', ['postId' => $post->id], key($post->id))
+                </div>
+            @endif
         </div>
 
         <!-- Post Title -->
@@ -83,7 +88,7 @@
                 <span class="text-sm">Save</span>
             </button>
 
-            @if (auth()->user()->hasRole('admin') || auth()->id() === $post->user_id)
+            @if (auth()->user()->hasRole('admin') || Auth::id() === $post->user_id)
                 <button wire:click="deletePost({{ $post->id }})"
                     class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm">
                     <i class="fa-solid fa-trash mr-1"></i> Delete

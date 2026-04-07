@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostLike;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class PostShow extends Component
@@ -55,27 +56,25 @@ class PostShow extends Component
     }
 
     public function deletePost(Post $post)
-{
-    $user = Auth::user();
+    {   
+        $user = Auth::user();
 
-    // Authorization
-    if (! $user->hasRole('admin') && $post->user_id !== $user->id) {
-        abort(403, 'Unauthorized');
+        if (! $user->hasRole('admin') && $post->user_id !== $user->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Delete images from storage + DB
+        foreach ($post->images as $image) {
+            Storage::disk('public')->delete($image->name);
+            $image->delete();
+        }
+
+        $post->delete();
+        $this->dispatch('message', 'Post deleted');
+        return redirect()->route('home');
     }
 
-    // Delete images from storage + DB
-    foreach ($post->images as $image) {
-        Storage::disk('public')->delete($image->name);
-        $image->delete();
-    }
-
-    // Delete the post
-    $post->delete();
-    $this->dispatch('message', 'Post deleted');
-    return redirect()->route('home');
-}
-
-
+    #[On('evtPostUpdated')]
     public function render()
     {
         return view('livewire.post.post-show');

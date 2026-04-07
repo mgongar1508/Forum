@@ -95,7 +95,7 @@
             <x-label value="Estado" for="status" class="mb-1 text-gray-300" />
             <select id="status" class="w-full rounded-lg mb-4 bg-gray-800 text-gray-100 border-gray-700"
                 wire:model="cform.status">
-                <option value="draft">Draf</option>
+                <option value="draft">Draft</option>
                 <option value="published">Published</option>
             </select>
         </x-slot>
@@ -103,7 +103,7 @@
         <x-slot name="footer">
             <div class="flex flex-row-reverse">
 
-                <x-button class="bg-blue-500 hover:bg-blue-700 text-white" wire:click="create"
+                <x-button class="bg-blue-400 hover:bg-blue-600 text-white" wire:click="create"
                     wire:loading.attr="disabled">
                     <i class="fa-solid fa-paper-plane mr-1"></i>CREATE
                 </x-button>
