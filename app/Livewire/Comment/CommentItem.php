@@ -31,7 +31,7 @@ class CommentItem extends Component
         $this->comment->delete();
 
         // Tell parent to refresh
-        $this->dispatch('evtPostUpdated');
+        $this->dispatch('evtPostUpdated')->to(PostShow::class);
     }
 
     public function startEditComment()

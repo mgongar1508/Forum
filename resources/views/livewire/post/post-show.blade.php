@@ -107,7 +107,7 @@
         <!-- Comments List -->
         <div class="space-y-6 mt-4">
             @foreach ($this->comments as $comment)
-                <livewire:comment.comment-item :comment="$comment" :key="'comment-' . $comment->id" />
+                <livewire:comment.comment-item :comment="$comment" :key="'comment-' . $comment->id . '-' . $commentsVersion" />
             @endforeach
         </div>
 </x-custom.base>

@@ -12,6 +12,7 @@ use Livewire\Component;
 class PostShow extends Component
 {
     public Post $post;
+    public int $commentsVersion = 0;
 
     public $comments;
 
@@ -27,6 +28,7 @@ class PostShow extends Component
     public function refreshComments()
     {
         $this->loadComments();
+        $this->commentsVersion++;
     }
 
     public function loadComments()
@@ -34,11 +36,7 @@ class PostShow extends Component
         $this->post->refresh();
         $this->comments = $this->post->comments()
             ->whereNull('parent_id')
-            ->with([
-                'user',
-                'children.user',
-                'children.children.user',
-            ])
+            ->with('children.user')
             ->orderBy('created_at', 'asc')
             ->get();
     }
