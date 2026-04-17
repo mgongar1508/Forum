@@ -21,7 +21,7 @@ class CreatePost extends Component
     {
         return view('livewire.post.create-post', [
             'subforums' => Subforum::orderBy('name')->get(),
-            'tags'     => Tag::orderBy('name')->get(),
+            'tags' => Tag::orderBy('name')->get(),
         ]);
     }
 
@@ -31,6 +31,11 @@ class CreatePost extends Component
         $this->cancel();
         $this->dispatch('message', 'Post Created');
         $this->dispatch('evtPostCreated')->to(HomeFeed::class);
+    }
+
+    public function removeImage($index)
+    {
+        $this->cform->removeImage($index);
     }
 
     public function cancel()

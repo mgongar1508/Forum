@@ -17,7 +17,9 @@ class UpdatePost extends Component
     public UpdatePostForm $uform;
 
     public bool $openUpdate = false;
+
     public Post $post;
+
     public int $postId;
 
     public function mount($postId)
@@ -50,6 +52,16 @@ class UpdatePost extends Component
 
         $this->dispatch('message', 'Post Updated');
         $this->dispatch('evtPostUpdated')->to(PostShow::class);
+    }
+
+    public function removeExistingImage($imageId)
+    {
+        $this->uform->removeExistingImage($imageId);
+    }
+
+    public function removeNewImage($index)
+    {
+        $this->uform->removeNewImage($index);
     }
 
     public function cancel()

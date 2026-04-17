@@ -38,9 +38,13 @@
             {{-- PREVIEW --}}
             @if ($cform->images)
                 <div class="grid grid-cols-3 gap-4 mt-2">
-                    @foreach ($cform->images as $image)
+                    @foreach ($cform->images as $index => $image )
                         <div class="relative">
                             <img src="{{ $image->temporaryUrl() }}" class="rounded-lg border border-gray-700">
+                            <button type="button" wire:click="removeImage({{ $index }})"
+                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700 transition-colors shadow-lg">
+                                <i class="fa-solid fa-xmark text-xs"></i>
+                            </button>
                         </div>
                     @endforeach
                 </div>
@@ -103,7 +107,7 @@
         <x-slot name="footer">
             <div class="flex flex-row-reverse">
 
-                <x-button class="bg-blue-400 hover:bg-blue-600 text-white" wire:click="create"
+                <x-button class="bg-orange-400 hover:bg-orange-500 text-white" wire:click="create"
                     wire:loading.attr="disabled">
                     <i class="fa-solid fa-paper-plane mr-1"></i>CREATE
                 </x-button>

@@ -55,6 +55,15 @@ class CreatePostForm extends Form
         }
     }
 
+    public function removeImage($index)
+    {
+        if (isset($this->images[$index])) {
+            unset($this->images[$index]);
+            // Re-index the array to avoid issues with missing keys
+            $this->images = array_values($this->images);
+        }
+    }
+
     public function cancelForm()
     {
         $this->resetValidation();
