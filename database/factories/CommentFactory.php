@@ -33,6 +33,7 @@ class CommentFactory extends Factory
             'image' => $this->faker->boolean(30) ? $this->faker->imageUrl(640, 480, 'cats') : null,
             'commentable_id' => $commentable->id,
             'commentable_type' => get_class($commentable),
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

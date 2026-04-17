@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(RolesSeeder::class);
-        $users = User::factory(15)->create();
+        $users = User::factory(30)->create();
         $this->call(SubforumSeeder::class);
         $this->call(TagSeeder::class);
 
@@ -63,12 +63,13 @@ class DatabaseSeeder extends Seeder
                     $tags->random(rand(1, 3))->pluck('id')->toArray()
                 );
 
-                Comment::factory(rand(1, 5))->create([
+                Comment::factory(rand(1, 8))->create([
                     'commentable_id' => $post->id,
                     'commentable_type' => Post::class,
+                    'user_id' => User::all()->random()->id,
                 ]);
 
-                Image::factory(rand(1, 3))->create([
+                Image::factory(rand(1, 4))->create([
                     'imageable_id' => $post->id,
                     'imageable_type' => Post::class,
                 ]);
@@ -76,9 +77,10 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach ($users as $user) {
-            Comment::factory(rand(0, 3))->create([
+            Comment::factory(rand(0, 7))->create([
                 'commentable_id' => $user->id,
                 'commentable_type' => User::class,
+                'user_id' => User::inRandomOrder()->first()->id,
             ]);
         }
 

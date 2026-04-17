@@ -13,11 +13,34 @@ class PostShow extends Component
 {
     public Post $post;
 
+    public $comments;
+
     public $currentImageIndex = 0;
 
     public function mount(Post $post)
     {
         $this->post = $post->load(['images', 'user']);
+        $this->loadComments();
+    }
+
+    #[On('evtPostUpdated')]
+    public function refreshComments()
+    {
+        $this->loadComments();
+    }
+
+    public function loadComments()
+    {
+        $this->post->refresh();
+        $this->comments = $this->post->comments()
+            ->whereNull('parent_id')
+            ->with([
+                'user',
+                'children.user',
+                'children.children.user',
+            ])
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 
     // Go to next image
@@ -56,7 +79,7 @@ class PostShow extends Component
     }
 
     public function deletePost(Post $post)
-    {   
+    {
         $user = Auth::user();
 
         if (! $user->hasRole('admin') && $post->user_id !== $user->id) {
@@ -71,10 +94,10 @@ class PostShow extends Component
 
         $post->delete();
         $this->dispatch('message', 'Post deleted');
+
         return redirect()->route('home');
     }
 
-    #[On('evtPostUpdated')]
     public function render()
     {
         return view('livewire.post.post-show');

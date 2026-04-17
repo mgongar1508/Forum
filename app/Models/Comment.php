@@ -17,6 +17,8 @@ class Comment extends Model
         'image',
         'commentable_id',
         'commentable_type',
+        'user_id',
+        'parent_id'
     ];
 
     public function commentable(): MorphTo
@@ -27,5 +29,20 @@ class Comment extends Model
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->with('children', 'user')->orderBy('created_at', 'desc');
     }
 }

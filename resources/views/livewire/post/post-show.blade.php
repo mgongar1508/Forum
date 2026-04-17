@@ -3,6 +3,7 @@
         $likes = $post->likes->where('type', 'Like')->count();
         $dislikes = $post->likes->where('type', 'Dislike')->count();
         $userLike = $post->likes->firstWhere('user_id', auth()->id());
+        $user = Auth::user();
     @endphp
     <div class="max-w-3xl mx-auto p-4 space-y-6 text-gray-200">
 
@@ -12,7 +13,7 @@
             <span class="font-semibold text-gray-300">{{ $post->user->name }}</span>
             <span>•</span>
             <span>{{ $post->created_at }}</span>
-            @if (auth()->user()->hasRole('admin') || Auth::id() === $post->user_id)
+            @if ($user && ($user->hasRole('admin') || $user->id === $post->user_id))
                 <div>
                     @livewire('post.update-post', ['postId' => $post->id], key($post->id))
                 </div>
@@ -88,7 +89,7 @@
                 <span class="text-sm">Save</span>
             </button>
 
-            @if (auth()->user()->hasRole('admin') || Auth::id() === $post->user_id)
+            @if ($user && ($user->hasRole('admin') || $user->id === $post->user_id))
                 <button wire:click="deletePost({{ $post->id }})"
                     class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm">
                     <i class="fa-solid fa-trash mr-1"></i> Delete
@@ -101,107 +102,13 @@
         <hr class="border-gray-700" />
 
         <!-- Comment Input -->
-        <div class="flex gap-3">
-            <input type="text" placeholder="Add a comment..."
-                class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-200 placeholder-gray-500 focus:ring focus:ring-blue-500" />
-        </div>
+        <livewire:comment.create-comment :post="$post" />
 
         <!-- Comments List -->
         <div class="space-y-6 mt-4">
-
-            <!-- Single Comment -->
-            <div class="flex gap-3">
-                <img src="https://via.placeholder.com/32" class="w-8 h-8 rounded-full" />
-
-                <div class="flex-1">
-                    <div class="flex items-center gap-2 text-sm text-gray-400">
-                        <span class="font-semibold text-gray-300">u/commenter</span>
-                        <span>•</span>
-                        <span>2 hours ago</span>
-                    </div>
-
-                    <p class="text-gray-200 mt-1">
-                        This is a comment. It stays readable without glowing too bright.
-                    </p>
-
-                    <div class="flex items-center gap-4 text-gray-500 text-sm mt-2">
-                        <i class="fa-solid fa-arrow-up cursor-pointer hover:text-orange-400"></i>
-                        <i class="fa-solid fa-arrow-down cursor-pointer hover:text-blue-400"></i>
-
-                        <button class="hover:text-gray-300 flex items-center gap-1">
-                            <i class="fa-regular fa-comment"></i> Reply
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-6 mt-4">
-
-                <!-- Comment Level 1 -->
-                <div class="flex gap-3">
-
-                    <!-- Avatar -->
-                    <img src="https://via.placeholder.com/32" class="w-8 h-8 rounded-full" />
-
-                    <div class="flex-1">
-
-                        <!-- Header -->
-                        <div class="flex items-center gap-2 text-sm text-gray-400">
-                            <span class="font-semibold text-gray-300">u/commenter1</span>
-                            <span>•</span>
-                            <span>3 hours ago</span>
-                        </div>
-
-                        <!-- Body -->
-                        <p class="text-gray-200 mt-1">
-                            This is a top-level comment. It introduces the discussion.
-                        </p>
-
-                        <!-- Actions -->
-                        <div class="flex items-center gap-4 text-gray-500 text-sm mt-2">
-                            <i class="fa-solid fa-arrow-up hover:text-orange-400 cursor-pointer"></i>
-                            <i class="fa-solid fa-arrow-down hover:text-blue-400 cursor-pointer"></i>
-
-                            <button class="hover:text-gray-300 flex items-center gap-1">
-                                <i class="fa-regular fa-comment"></i> Reply
-                            </button>
-                        </div>
-
-                        <!-- Nested Reply (compact indent) -->
-                        <div class="mt-4 ml-4 border-l border-gray-700 pl-3">
-
-                            <div class="flex gap-3">
-
-                                <img src="https://via.placeholder.com/28" class="w-7 h-7 rounded-full" />
-
-                                <div class="flex-1">
-
-                                    <div class="flex items-center gap-2 text-sm text-gray-400">
-                                        <span class="font-semibold text-gray-300">u/replier1</span>
-                                        <span>•</span>
-                                        <span>1 hour ago</span>
-                                    </div>
-
-                                    <p class="text-gray-200 mt-1">
-                                        This is a nested reply, but with a much smaller indent so it stays readable.
-                                    </p>
-
-                                    <div class="flex items-center gap-4 text-gray-500 text-sm mt-2">
-                                        <i class="fa-solid fa-arrow-up hover:text-orange-400 cursor-pointer"></i>
-                                        <i class="fa-solid fa-arrow-down hover:text-blue-400 cursor-pointer"></i>
-
-                                        <button class="hover:text-gray-300 flex items-center gap-1">
-                                            <i class="fa-regular fa-comment"></i> Reply
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Nested Reply -->
-                    </div>
-                </div>
-            </div>
+            @foreach ($this->comments as $comment)
+                <livewire:comment.comment-item :comment="$comment" :key="'comment-' . $comment->id" />
+            @endforeach
         </div>
 </x-custom.base>
 <script>
