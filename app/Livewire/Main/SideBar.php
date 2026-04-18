@@ -13,7 +13,8 @@ class SideBar extends Component
         $all = Subforum::all();
         $followed = Auth::user()
         ? Auth::user()->subforums
-        : collect(); 
+        : collect();
+
         return view('livewire.main.side-bar', compact('followed', 'all'));
     }
 }
