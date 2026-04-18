@@ -1,5 +1,5 @@
 <!-- SIDEBAR -->
-<aside class="fixed top-[3.5rem] left-0 z-50 w-64 h-[calc(100vh-3.5rem)]">
+<aside class="fixed top-[3.5rem] left-0 z-49 w-64 h-[calc(100vh-3.5rem)]">
 
     <div
         class="bg-white dark:bg-[#1a1a1b] border border-gray-200 dark:border-gray-800 p-4 space-y-6 shadow-sm h-full">
@@ -12,12 +12,6 @@
             <nav class="space-y-1">
                 <a href="/" class="block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
                     Home
-                </a>
-                <a class="block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
-                    Popular
-                </a>
-                <a class="block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
-                    Explore
                 </a>
             </nav>
         </div>

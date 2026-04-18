@@ -14,6 +14,8 @@ class UpdatePost extends Component
 {
     use WithFileUploads;
 
+    public $images = [];
+
     public UpdatePostForm $uform;
 
     public bool $openUpdate = false;
@@ -47,11 +49,12 @@ class UpdatePost extends Component
 
     public function update()
     {
+        $this->uform->images = $this->images;
         $this->uform->updatePost();
         $this->cancel();
 
         $this->dispatch('message', 'Post Updated');
-        $this->dispatch('evtPostUpdated')->to(PostShow::class);
+        $this->dispatch('evtpostU')->to(PostShow::class);
     }
 
     public function removeExistingImage($imageId)
@@ -61,7 +64,10 @@ class UpdatePost extends Component
 
     public function removeNewImage($index)
     {
-        $this->uform->removeNewImage($index);
+        if (isset($this->images[$index])) {
+            unset($this->images[$index]);
+            $this->images = array_values($this->images);
+        }
     }
 
     public function cancel()

@@ -110,6 +110,37 @@
                 <livewire:comment.comment-item :comment="$comment" :key="'comment-' . $comment->id . '-' . $commentsVersion" />
             @endforeach
         </div>
+        <!-- Image Modal -->
+        <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50">
+            <div class="relative max-w-5xl w-full px-4">
+
+                <!-- Close Button -->
+                <button id="modal-close"
+                    class="absolute top-2 right-2 text-white text-2xl bg-black bg-opacity-50 rounded-full w-10 h-10">
+                    ✕
+                </button>
+
+                <!-- Image -->
+                <img id="modal-image" class="w-full max-h-[85vh] object-contain rounded-lg" />
+
+                <!-- Navigation -->
+                <button id="modal-prev"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-3xl bg-black bg-opacity-50 px-3 py-1 rounded">
+                    ‹
+                </button>
+
+                <button id="modal-next"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-3xl bg-black bg-opacity-50 px-3 py-1 rounded">
+                    ›
+                </button>
+
+                <!-- Counter -->
+                <div id="modal-counter"
+                    class="absolute bottom-3 right-3 text-white bg-black bg-opacity-50 px-2 py-1 rounded text-sm">
+                </div>
+
+            </div>
+        </div>
 </x-custom.base>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -145,5 +176,109 @@
         });
 
         updateImage(); // initialize
+    });
+
+    //image modal
+    document.addEventListener('DOMContentLoaded', () => {
+        const images = Array.from(document.querySelectorAll('#image-list li')).map(li => li.textContent);
+
+        let currentIndex = 0;
+
+        const imgEl = document.getElementById('post-image');
+        const counterEl = document.getElementById('image-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Modal elements
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        const modalCounter = document.getElementById('modal-counter');
+        const modalPrev = document.getElementById('modal-prev');
+        const modalNext = document.getElementById('modal-next');
+        const modalClose = document.getElementById('modal-close');
+
+        const hasMultiple = images.length > 1;
+
+        function updateMainImage() {
+            imgEl.src = images[currentIndex];
+            counterEl.textContent = `${currentIndex + 1} / ${images.length}`;
+
+            // Hide nav if only 1 image
+            if (!hasMultiple) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                counterEl.style.display = 'none';
+            }
+        }
+
+        function updateModal() {
+            modalImg.src = images[currentIndex];
+            modalCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+
+            modalPrev.style.display = hasMultiple ? 'block' : 'none';
+            modalNext.style.display = hasMultiple ? 'block' : 'none';
+            modalCounter.style.display = hasMultiple ? 'block' : 'none';
+        }
+
+        function openModal(index) {
+            currentIndex = index;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            updateModal();
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Main slider
+        prevBtn?.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateMainImage();
+            }
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                updateMainImage();
+            }
+        });
+
+        // Click image → open modal
+        imgEl?.addEventListener('click', () => {
+            openModal(currentIndex);
+        });
+
+        // Modal navigation
+        modalPrev.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateModal();
+            }
+        });
+
+        modalNext.addEventListener('click', () => {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                updateModal();
+            }
+        });
+
+        modalClose.addEventListener('click', closeModal);
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // ESC key support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        updateMainImage();
     });
 </script>

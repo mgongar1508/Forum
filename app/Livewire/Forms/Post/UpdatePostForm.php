@@ -62,9 +62,9 @@ class UpdatePostForm extends Form
         $this->validate(); // Validates title, body, etc.
 
         // Explicitly validate the images
-        $this->validate([
-            'images.*' => ['image', 'max:2048'],
-        ]);
+        //$this->validate([
+        //    'images.*' => ['image', 'max:2048'],
+      //  ]);
 
         $this->post->update([
             'title' => $this->title,

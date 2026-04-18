@@ -96,6 +96,7 @@ class PostShow extends Component
         return redirect()->route('home');
     }
 
+    #[On('evtpostU')]
     public function render()
     {
         return view('livewire.post.post-show');
