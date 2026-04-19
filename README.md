@@ -15,20 +15,17 @@ Base de datos: MySQL
 
 Este enfoque permite un desarrollo rápido, mantenible y con buena experiencia de usuario sin depender completamente de frameworks frontend pesados.
 
-Funcionalidades Principales
-📝 Publicaciones (Posts)
-
+📝 Funcionalidades Principales
+-Publicaciones (Posts):  
 Los usuarios pueden crear, editar y eliminar sus publicaciones dentro del foro. Estas publicaciones pueden organizarse en distintas etiquetas, facilitando la navegación y el filtrado de contenido. hay funcionalidades adicionales como likes/dislikes.
 
-💬 Comentarios
-
+-Comentarios:  
 Cada publicación admite comentarios, permitiendo a los usuarios interactuar entre sí. Los comentarios pueden estructurarse en forma de hilos (respuestas a otros comentarios), favoreciendo discusiones organizadas. Los usuarios pueden editar o eliminar sus propios comentarios.
 
-👤 Usuarios
-
+-Usuarios:  
 El sistema permite el registro, inicio y cierre de sesión mediante Jetstream. Cada usuario dispone de un perfil básico que puede incluir nombre, avatar y una breve biografía.
 
-Sistema de Roles (RBAC)
+🛡️ Sistema de Roles (RBAC)  
 👑 Admin:  
 Acceso total  
 Gestión de usuarios (roles, baneos)  
