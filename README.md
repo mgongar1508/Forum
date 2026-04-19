@@ -7,6 +7,7 @@ Esta aplicación web es un foro orientado principalmente a la comunidad de video
 La aplicación está construida utilizando Laravel Jetstream como base para la autenticación y gestión de usuarios, junto con Livewire para crear interfaces dinámicas sin necesidad de una SPA completa. Además, se incorpora JavaScript para mejorar la experiencia de usuario en interacciones específicas.
 
 🏗️ Stack Tecnológico
+
 Backend: Laravel (framework principal)
 Autenticación: Laravel Jetstream
 Frontend: Blade + Livewire
@@ -15,7 +16,7 @@ Base de datos: MySQL
 
 Este enfoque permite un desarrollo rápido, mantenible y con buena experiencia de usuario sin depender completamente de frameworks frontend pesados.
 
-📝 Funcionalidades Principales
+📝 Funcionalidades Principales  
 -Publicaciones (Posts):  
 Los usuarios pueden crear, editar y eliminar sus publicaciones dentro del foro. Estas publicaciones pueden organizarse en distintas etiquetas, facilitando la navegación y el filtrado de contenido. hay funcionalidades adicionales como likes/dislikes.
 
