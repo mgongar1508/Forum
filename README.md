@@ -29,20 +29,20 @@ Cada publicación admite comentarios, permitiendo a los usuarios interactuar ent
 El sistema permite el registro, inicio y cierre de sesión mediante Jetstream. Cada usuario dispone de un perfil básico que puede incluir nombre, avatar y una breve biografía.
 
 Sistema de Roles (RBAC)
-👑 Admin
-Acceso total
-Gestión de usuarios (roles, baneos)
-Eliminación de cualquier contenido
-Configuración global
-🛠️ Moderador
-Moderación de posts y comentarios
-Eliminación de contenido inapropiado
-Gestión de reportes
-👥 Usuario
-Crear y gestionar su propio contenido
-Participar en el foro
+👑 Admin:  
+Acceso total  
+Gestión de usuarios (roles, baneos)  
+Eliminación de cualquier contenido  
+Configuración global  
+🛠️ Moderador:  
+Moderación de posts y comentarios  
+Eliminación de contenido inapropiado  
+Gestión de reportes  
+👥 Usuario:  
+Crear y gestionar su propio contenido  
+Participar en el foro  
 
-Arquitectura
+⚙️ Arquitectura
 
 La aplicación sigue una arquitectura basada en Laravel:
 
