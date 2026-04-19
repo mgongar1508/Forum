@@ -1,59 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Foro Web
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+🧩 Descripción General
 
-## About Laravel
+Esta aplicación web es un foro orientado principalmente a la comunidad de videojuegos, aunque su diseño flexible permite adaptarse a otras temáticas. Los usuarios pueden crear publicaciones, interactuar mediante comentarios y participar activamente en distintas categorías dentro del sistema.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+La aplicación está construida utilizando Laravel Jetstream como base para la autenticación y gestión de usuarios, junto con Livewire para crear interfaces dinámicas sin necesidad de una SPA completa. Además, se incorpora JavaScript para mejorar la experiencia de usuario en interacciones específicas.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+🏗️ Stack Tecnológico
+Backend: Laravel (framework principal)
+Autenticación: Laravel Jetstream
+Frontend: Blade + Livewire
+Interactividad adicional: JavaScript
+Base de datos: MySQL
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Este enfoque permite un desarrollo rápido, mantenible y con buena experiencia de usuario sin depender completamente de frameworks frontend pesados.
 
-## Learning Laravel
+Funcionalidades Principales
+📝 Publicaciones (Posts)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Los usuarios pueden crear, editar y eliminar sus publicaciones dentro del foro. Estas publicaciones pueden organizarse en distintas etiquetas, facilitando la navegación y el filtrado de contenido. hay funcionalidades adicionales como likes/dislikes.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+💬 Comentarios
 
-## Laravel Sponsors
+Cada publicación admite comentarios, permitiendo a los usuarios interactuar entre sí. Los comentarios pueden estructurarse en forma de hilos (respuestas a otros comentarios), favoreciendo discusiones organizadas. Los usuarios pueden editar o eliminar sus propios comentarios.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+👤 Usuarios
 
-### Premium Partners
+El sistema permite el registro, inicio y cierre de sesión mediante Jetstream. Cada usuario dispone de un perfil básico que puede incluir nombre, avatar y una breve biografía.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Sistema de Roles (RBAC)
+👑 Admin
+Acceso total
+Gestión de usuarios (roles, baneos)
+Eliminación de cualquier contenido
+Configuración global
+🛠️ Moderador
+Moderación de posts y comentarios
+Eliminación de contenido inapropiado
+Gestión de reportes
+👥 Usuario
+Crear y gestionar su propio contenido
+Participar en el foro
 
-## Contributing
+Arquitectura
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+La aplicación sigue una arquitectura basada en Laravel:
 
-## Code of Conduct
+Componentes Livewire: Gestionan la lógica interactiva del frontend (creación de posts, comentarios en tiempo real, etc.)
+Blade Templates: Encargados del renderizado de las vistas
+Controladores: Manejan la lógica de negocio y la comunicación con los modelos
+Modelos (Eloquent): Representan entidades como usuarios, publicaciones, comentarios y roles
+Middleware y Policies: Controlan el acceso y permisos según el rol del usuario
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+🔒 Seguridad
 
-## Security Vulnerabilities
+La aplicación incorpora varias medidas de seguridad:
+Autenticación robusta mediante Jetstream
+Autorización basada en roles usando middleware y policies
+Protección contra CSRF integrada en Laravel
+Validación de datos tanto en servidor como en cliente
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+📌 Notas Finales
 
-## License
+El uso de Livewire permite construir una experiencia interactiva sin la complejidad de una SPA completa. JavaScript se utiliza de forma complementaria para mejorar la usabilidad en ciertos casos.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+La arquitectura del sistema es modular y escalable, lo que facilita la incorporación futura de nuevas funcionalidades como notificaciones en tiempo real, mensajería privada o sistemas avanzados de reputación.
