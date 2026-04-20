@@ -1,45 +1,67 @@
 <x-layouts.guest>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+    <div class="min-h-screen flex items-center justify-center 
+                bg-gray-100 dark:bg-[#0f0f10] px-4">
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-        </div>
+        <div class="w-full max-w-md">
 
-        @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
-            </div>
-        @endif
+            <!-- CARD -->
+            <div
+                class="bg-white dark:bg-[#1a1a1b] 
+                        border border-gray-200 dark:border-gray-800 
+                        rounded-2xl shadow-lg p-8">
 
-        <div class="mt-4 flex items-center justify-between">
-            <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
-
-                <div>
-                    <x-button type="submit">
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
+                <!-- LOGO -->
+                <div class="flex justify-center mb-6">
+                    <x-authentication-card-logo />
                 </div>
-            </form>
 
-            <div>
-                <a
-                    href="{{ route('profile.show') }}"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    {{ __('Edit Profile') }}</a>
+                <!-- DESCRIPTION -->
+                <p class="mb-4 text-sm text-gray-600 dark:text-gray-400 text-center">
+                    Before continuing, please verify your email address by clicking the link we sent you.
+                    If you didn’t receive it, we can send another.
+                </p>
 
-                <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
+                <!-- STATUS -->
+                @if (session('status') == 'verification-link-sent')
+                    <div class="mb-4 text-sm text-green-600 text-center">
+                        A new verification link has been sent to your email address.
+                    </div>
+                @endif
 
-                    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
-                        {{ __('Log Out') }}
-                    </button>
-                </form>
+                <!-- ACTIONS -->
+                <div class="mt-6 space-y-4">
+
+                    <!-- RESEND -->
+                    <form method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+
+                        <button type="submit"
+                            class="w-full py-2.5 rounded-full text-sm font-medium
+                                   bg-orange-500 text-white
+                                   hover:bg-orange-600 transition">
+                            Resend Verification Email
+                        </button>
+                    </form>
+
+                    <!-- SECONDARY ACTIONS -->
+                    <div class="flex items-center justify-between text-sm">
+
+                        <a href="{{ route('profile.show') }}" class="text-gray-500 hover:text-orange-500 transition">
+                            Edit Profile
+                        </a>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <button type="submit" class="text-gray-500 hover:text-orange-500 transition">
+                                Log out
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
             </div>
         </div>
-    </x-authentication-card>
+    </div>
 </x-layouts.guest>

@@ -29,7 +29,7 @@
 
     <div class="min-h-screen">
 
-        <x-custom.navbar/>
+        <x-custom.navbar />
 
         @if (isset($header))
             <header class="bg-white dark:bg-[#1a1a1b] shadow border-b border-gray-200 dark:border-gray-800">

@@ -82,10 +82,6 @@
                                 Profile
                             </a>
 
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
-                                Settings
-                            </a>
-
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
