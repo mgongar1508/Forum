@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('subforums', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->string('description')->nullable();
             $table->integer('post_count')->default(0);
             $table->timestamps();

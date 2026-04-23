@@ -33,7 +33,7 @@
 
                         <x-input id="password"
                             class="mt-1 w-full rounded-lg px-4 py-2 text-sm
-                                   bg-gray-100
+                                   bg-gray-100 text-black
                                    border border-transparent
                                    focus:outline-none focus:ring-2 focus:ring-orange-500
                                    transition"

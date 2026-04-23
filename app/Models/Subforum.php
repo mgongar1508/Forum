@@ -12,6 +12,7 @@ class Subforum extends Model
         'name',
         'description',
         'post_count',
+        'slug',
     ];
 
     public function posts(): HasMany

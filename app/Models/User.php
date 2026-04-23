@@ -96,7 +96,9 @@ class User extends Authenticatable
 
     public function subforums(): BelongsToMany
     {
-        return $this->belongsToMany(Subforum::class)->withPivot('notify_new_posts')->withTimestamps();
+        return $this->belongsToMany(Subforum::class)
+            ->withPivot('notify_new_posts')
+            ->withTimestamps();
     }
 
     public function likes()

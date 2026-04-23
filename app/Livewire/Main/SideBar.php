@@ -4,10 +4,12 @@ namespace App\Livewire\Main;
 
 use App\Models\Subforum;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SideBar extends Component
 {
+    #[On('sFollowed')]
     public function render()
     {
         $all = Subforum::all();

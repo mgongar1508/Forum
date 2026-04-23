@@ -20,7 +20,7 @@
 
             <x-input id="current_password" type="password"
                 class="mt-1 w-full rounded-lg px-4 py-2 text-sm
-                       bg-gray-100 dark:bg-[#272729]
+                       bg-gray-100 text-black
                        border border-transparent
                        focus:outline-none focus:ring-2 focus:ring-orange-500
                        transition"
@@ -35,7 +35,7 @@
 
             <x-input id="password" type="password"
                 class="mt-1 w-full rounded-lg px-4 py-2 text-sm
-                       bg-gray-100 dark:bg-[#272729]
+                       bg-gray-100 text-black
                        border border-transparent
                        focus:outline-none focus:ring-2 focus:ring-orange-500
                        transition"
@@ -50,7 +50,7 @@
 
             <x-input id="password_confirmation" type="password"
                 class="mt-1 w-full rounded-lg px-4 py-2 text-sm
-                       bg-gray-100 dark:bg-[#272729]
+                       bg-gray-100 text-black
                        border border-transparent
                        focus:outline-none focus:ring-2 focus:ring-orange-500
                        transition"

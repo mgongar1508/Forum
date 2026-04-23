@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subforum_user', function (Blueprint $table) {
-            $table->foreignId('subforum_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->id();
 
-            $table->boolean('notify_new_posts')->default(true);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('subforum_id')->constrained()->cascadeOnDelete();
+
+            $table->boolean('notify_new_posts')->default(false);
 
             $table->timestamps();
 
-            $table->primary(['subforum_id', 'user_id']);
+            $table->unique(['user_id', 'subforum_id']);
         });
     }
 

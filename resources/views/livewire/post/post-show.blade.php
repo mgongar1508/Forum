@@ -13,6 +13,10 @@
             <span class="font-semibold text-gray-300">{{ $post->user->name }}</span>
             <span>•</span>
             <span>{{ $post->created_at }}</span>
+            <span>•</span>
+            <span class="text-blue-600 font-medium"><a href="{{ route('subforum.view', $post->subforum->slug) }}">
+                    {{ $post->subforum->name }}
+                </a></span>
             @if ($user && ($user->hasRole('admin') || $user->id === $post->user_id))
                 <div>
                     @livewire('post.update-post', ['postId' => $post->id], key($post->id))
@@ -29,7 +33,7 @@
             @if ($post->images->count() > 0)
                 <div class="overflow-hidden rounded-lg">
                     <img id="post-image" src="{{ Storage::url($post->images[0]->name) }}" alt="Post image"
-                        class="w-full h-auto object-cover">
+                        class="w-full h-auto object-cover cursor-pointer">
                 </div>
 
                 <!-- Left / Right Buttons -->
@@ -145,45 +149,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const images = Array.from(document.querySelectorAll('#image-list li')).map(li => li.textContent);
-        let currentIndex = 0;
-
-        const imgEl = document.getElementById('post-image');
-        const counterEl = document.getElementById('image-counter');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-
-        function updateImage() {
-            imgEl.src = images[currentIndex];
-            counterEl.textContent = `${currentIndex + 1} / ${images.length}`;
-
-            // Disable buttons if at ends
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === images.length - 1;
-        }
-
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateImage();
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentIndex < images.length - 1) {
-                currentIndex++;
-                updateImage();
-            }
-        });
-
-        updateImage(); // initialize
-    });
-
-    //image modal
-    document.addEventListener('DOMContentLoaded', () => {
-        const images = Array.from(document.querySelectorAll('#image-list li')).map(li => li.textContent);
 
         let currentIndex = 0;
 
+        // Main elements
         const imgEl = document.getElementById('post-image');
         const counterEl = document.getElementById('image-counter');
         const prevBtn = document.getElementById('prev-btn');
@@ -199,86 +168,77 @@
 
         const hasMultiple = images.length > 1;
 
-        function updateMainImage() {
-            imgEl.src = images[currentIndex];
-            counterEl.textContent = `${currentIndex + 1} / ${images.length}`;
+        function render() {
+            const src = images[currentIndex];
 
-            // Hide nav if only 1 image
+            // Sync both views
+            imgEl.src = src;
+            modalImg.src = src;
+
+            counterEl.textContent = `${currentIndex + 1} / ${images.length}`;
+            modalCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+
+            // Buttons
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === images.length - 1;
+
+            modalPrev.style.display = hasMultiple ? 'block' : 'none';
+            modalNext.style.display = hasMultiple ? 'block' : 'none';
+
             if (!hasMultiple) {
                 prevBtn.style.display = 'none';
                 nextBtn.style.display = 'none';
                 counterEl.style.display = 'none';
+                modalCounter.style.display = 'none';
             }
         }
 
-        function updateModal() {
-            modalImg.src = images[currentIndex];
-            modalCounter.textContent = `${currentIndex + 1} / ${images.length}`;
-
-            modalPrev.style.display = hasMultiple ? 'block' : 'none';
-            modalNext.style.display = hasMultiple ? 'block' : 'none';
-            modalCounter.style.display = hasMultiple ? 'block' : 'none';
+        function setIndex(index) {
+            currentIndex = index;
+            render();
         }
 
-        function openModal(index) {
-            currentIndex = index;
+        // MAIN navigation
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) setIndex(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < images.length - 1) setIndex(currentIndex + 1);
+        });
+
+        // OPEN MODAL
+        imgEl.addEventListener('click', () => {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            updateModal();
-        }
+            render(); // ensure sync when opening
+        });
+
+        // MODAL navigation (same state!)
+        modalPrev.addEventListener('click', () => {
+            if (currentIndex > 0) setIndex(currentIndex - 1);
+        });
+
+        modalNext.addEventListener('click', () => {
+            if (currentIndex < images.length - 1) setIndex(currentIndex + 1);
+        });
 
         function closeModal() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
 
-        // Main slider
-        prevBtn?.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateMainImage();
-            }
-        });
-
-        nextBtn?.addEventListener('click', () => {
-            if (currentIndex < images.length - 1) {
-                currentIndex++;
-                updateMainImage();
-            }
-        });
-
-        // Click image → open modal
-        imgEl?.addEventListener('click', () => {
-            openModal(currentIndex);
-        });
-
-        // Modal navigation
-        modalPrev.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateModal();
-            }
-        });
-
-        modalNext.addEventListener('click', () => {
-            if (currentIndex < images.length - 1) {
-                currentIndex++;
-                updateModal();
-            }
-        });
-
         modalClose.addEventListener('click', closeModal);
 
-        // Close on background click
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
 
-        // ESC key support
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
 
-        updateMainImage();
+        // init
+        render();
     });
 </script>

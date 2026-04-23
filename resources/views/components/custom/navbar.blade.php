@@ -92,9 +92,6 @@
                     </div>
 
                 @endauth
-
-
-
                 @guest
 
                     <a href="{{ route('login') }}"

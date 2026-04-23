@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Subforum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class SubforumSeeder extends Seeder
 {
@@ -31,6 +32,7 @@ class SubforumSeeder extends Seeder
         ];
 
         foreach($subforums as $s){
+            $s['slug'] = Str::slug($s['name']);
             Subforum::create($s);
         }
     }
