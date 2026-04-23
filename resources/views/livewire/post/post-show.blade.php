@@ -22,6 +22,15 @@
                     @livewire('post.update-post', ['postId' => $post->id], key($post->id))
                 </div>
             @endif
+            @if ($user && $user->hasAnyRole(['admin', 'moderator']))
+                <button wire:click="togglePin({{ $post->id }})"
+                    class="px-3 py-1.5 rounded-lg text-sm flex items-center gap-2
+                    {{ $post->is_pinned ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-gray-600 hover:bg-gray-700 text-white' }}">
+
+                    <i class="fa-solid fa-thumbtack"></i>
+                    {{ $post->is_pinned ? 'Unpin' : 'Pin' }}
+                </button>
+            @endif
         </div>
 
         <!-- Post Title -->
@@ -82,9 +91,17 @@
             </div>
 
             <!-- Share -->
-            <button class="flex items-center gap-2 hover:text-gray-200">
+            <button onclick="sharePost('{{ route('post.view', $post->id) }}', this)"
+                class="relative flex items-center gap-2 hover:text-gray-200">
+
                 <i class="fa-solid fa-share"></i>
                 <span class="text-sm">Share</span>
+
+                <!-- Copied indicator -->
+                <span
+                    class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-green-400 opacity-0 transition-opacity duration-300 pointer-events-none">
+                    Copied
+                </span>
             </button>
 
             <!-- Save -->
@@ -147,6 +164,20 @@
         </div>
 </x-custom.base>
 <script>
+    function sharePost(url, btn) {
+        navigator.clipboard.writeText(url);
+
+        const label = btn.querySelector('span:last-child');
+
+        label.classList.remove('opacity-0');
+        label.classList.add('opacity-100');
+
+        setTimeout(() => {
+            label.classList.add('opacity-0');
+            label.classList.remove('opacity-100');
+        }, 1200);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const images = Array.from(document.querySelectorAll('#image-list li')).map(li => li.textContent);
 

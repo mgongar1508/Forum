@@ -96,6 +96,22 @@ class PostShow extends Component
         return redirect()->route('home');
     }
 
+    public function togglePin($postId)
+{
+    $post = Post::findOrFail($postId);
+
+    // Optional: authorization check
+    if (!Auth::user()->hasAnyRole(['admin', 'moderator'])) {
+        abort(403);
+    }
+
+    $post->is_pinned = !$post->is_pinned;
+    $post->save();
+
+    // Optional: emit event if needed elsewhere
+    $this->dispatch('evtpostU');
+}
+
     #[On('evtpostU')]
     public function render()
     {

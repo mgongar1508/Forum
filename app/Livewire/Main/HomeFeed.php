@@ -12,6 +12,8 @@ class HomeFeed extends Component
 {
     public $feedPage = 10;
 
+    public $filter = 'newest';
+
     public function loadMore()
     {
         $this->feedPage += 20;
@@ -20,12 +22,40 @@ class HomeFeed extends Component
     #[On('evtPostCreated')]
     public function render()
     {
-        $posts = Post::with(['user', 'subforum', 'tags', 'likes', 'images'])
-            ->where('status', 'published')
-            ->take($this->feedPage)
-            ->get();
+        $query = Post::with(['user', 'subforum', 'tags', 'images'])
+            ->withCount([
+                'likes as likes_count' => function ($q) {
+                    $q->where('type', 'Like');
+                },
+                'likes as dislikes_count' => function ($q) {
+                    $q->where('type', 'Dislike');
+                },
+                'comments',
+            ])
+            ->where('status', 'published');
+
+        switch ($this->filter) {
+            case 'likes':
+                $query->orderByDesc('likes_count');
+                break;
+
+            case 'comments':
+                $query->orderByDesc('comments_count');
+                break;
+
+            default:
+                $query->orderByDesc('created_at');
+                break;
+        }
+
+        $posts = $query->take($this->feedPage)->get();
 
         return view('livewire.main.home-feed', compact('posts'));
+    }
+
+    public function updatedFilter()
+    {
+        $this->feedPage = 10;
     }
 
     public function likePost($postId, $given)

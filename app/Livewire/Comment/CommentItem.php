@@ -16,6 +16,8 @@ class CommentItem extends Component
     public $replying = false;
     public $editBody = '';
 
+    public $collapsed = false;
+
     public function deleteComment()
     {
         $user = Auth::user();
@@ -32,6 +34,11 @@ class CommentItem extends Component
 
         // Tell parent to refresh
         $this->dispatch('evtPostUpdated')->to(PostShow::class);
+    }
+
+    public function toggleCollapse()
+    {
+        $this->collapsed = ! $this->collapsed;
     }
 
     public function startEditComment()
