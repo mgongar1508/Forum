@@ -25,6 +25,12 @@
                         class="block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
                         Home
                     </a>
+                    @auth
+                        <a href="{{ route('userPosts.view') }}"
+                            class="block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
+                            My posts
+                        </a>
+                    @endauth
                 </nav>
             </div>
 
@@ -35,7 +41,8 @@
 
                 <div class="space-y-1">
                     @foreach ($followed as $item)
-                        <a href="{{ route('subforum.view', $item->slug) }}" class="cursor-pointer block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
+                        <a href="{{ route('subforum.view', $item->slug) }}"
+                            class="cursor-pointer block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
                             {{ $item->name }}
                         </a>
                     @endforeach
@@ -49,7 +56,8 @@
 
                 <div class="space-y-1">
                     @foreach ($all as $item)
-                        <a href="{{ route('subforum.view', $item->slug) }}" class="cursor-pointer block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
+                        <a href="{{ route('subforum.view', $item->slug) }}"
+                            class="cursor-pointer block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
                             {{ $item->name }}
                         </a>
                     @endforeach

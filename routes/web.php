@@ -2,6 +2,7 @@
 
 use App\Livewire\Main\HomeFeed;
 use App\Livewire\Main\SubForum;
+use App\Livewire\Main\UserPost;
 use App\Livewire\Post\PostShow;
 use Illuminate\Support\Facades\Route;
 
@@ -15,5 +16,5 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    
+    Route::get('/userPosts', UserPost::class)->name('userPosts.view');
 });
