@@ -1,8 +1,8 @@
 <div>
     <button
         class="sm:flex items-center gap-2 px-3 py-1.5 rounded-full
-                            bg-orange-500 text-white text-sm font-medium
-                            hover:bg-orange-600 transition"
+                            bg-blue-600 text-white text-sm font-medium
+                            hover:bg-blue-700 transition"
         wire:click="$set('openCreate', true)">
         <i class="fas fa-add mt-0.3"></i>POST
     </button>

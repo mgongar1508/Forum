@@ -31,7 +31,6 @@
                             bg-gray-100 dark:bg-[#272729]
                             focus:outline-none focus:ring-2 focus:ring-orange-500
                             transition" />
-
                 </div>
 
             </div>

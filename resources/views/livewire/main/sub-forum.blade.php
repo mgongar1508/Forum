@@ -56,28 +56,31 @@
 
             <!-- SLIDER -->
             <div id="pinned-track" class="flex gap-4 transition-transform duration-300">
-
                 @foreach ($pinnedPosts as $post)
                     <div
-                        class="min-w-[300px] bg-white dark:bg-[#1a1a1b] hover:bg-slate-100 dark:hover:bg-white/10 p-4 rounded-xl shadow">
+                        class="min-w-[240px] max-w-[300px] h-[240px]
+                            bg-white dark:bg-[#1a1a1b]
+                            hover:bg-slate-100 dark:hover:bg-white/10
+                            p-3 rounded-xl shadow flex flex-col justify-between">
+
                         <a href="{{ route('post.view', $post->id) }}">
-
-                            <h3 class="font-semibold mb-2 hover:text-blue-600 transition">
-                                {{ $post->title }}
-                            </h3>
-
+                            <div class="h-[38px] overflow-hidden">
+                                <h3
+                                    class="font-semibold leading-tight line-clamp-2 hover:text-blue-600 transition">
+                                    {{ $post->title }}
+                                </h3>
+                            </div>
                             @if ($post->images->isNotEmpty())
-                                <img class="rounded-lg mb-2" src="{{ Storage::url($post->images->first()->name) }}">
+                                <img class="rounded-lg w-full h-[140px] object-cover mt-2"
+                                    src="{{ Storage::url($post->images->first()->name) }}">
                             @else
                                 <p class="text-sm text-gray-400 line-clamp-3">
-                                    {{ Str::limit(strip_tags($post->body), 120) }}
+                                    {{ Str::limit(strip_tags($post->body), 100) }}
                                 </p>
                             @endif
-
                         </a>
                     </div>
                 @endforeach
-
             </div>
         </div>
     @endif
