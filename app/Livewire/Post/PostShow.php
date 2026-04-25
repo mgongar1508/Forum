@@ -12,6 +12,7 @@ use Livewire\Component;
 class PostShow extends Component
 {
     public Post $post;
+
     public int $commentsVersion = 0;
 
     public $comments;
@@ -76,6 +77,22 @@ class PostShow extends Component
         ]);
     }
 
+    public function toggleLock($postId)
+    {
+        $post = Post::findOrFail($postId);
+
+        if (! Auth::user()->hasAnyRole(['admin', 'moderator'])) {
+            abort(403);
+        }
+
+        $post->is_locked = ! $post->is_locked;
+        $post->save();
+
+        // Optional refresh trigger
+        $this->dispatch('evtpostU');
+        $this->dispatch('evtPostUpdated');
+    }
+
     public function deletePost(Post $post)
     {
         $user = Auth::user();
@@ -97,20 +114,18 @@ class PostShow extends Component
     }
 
     public function togglePin($postId)
-{
-    $post = Post::findOrFail($postId);
+    {
+        $post = Post::findOrFail($postId);
 
-    // Optional: authorization check
-    if (!Auth::user()->hasAnyRole(['admin', 'moderator'])) {
-        abort(403);
+        if (! Auth::user()->hasAnyRole(['admin', 'moderator'])) {
+            abort(403);
+        }
+
+        $post->is_pinned = ! $post->is_pinned;
+        $post->save();
+
+        $this->dispatch('evtpostU');
     }
-
-    $post->is_pinned = !$post->is_pinned;
-    $post->save();
-
-    // Optional: emit event if needed elsewhere
-    $this->dispatch('evtpostU');
-}
 
     #[On('evtpostU')]
     public function render()

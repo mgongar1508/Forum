@@ -40,11 +40,13 @@
             @else
                 <p class="text-gray-300 break-words break-all">{{ $comment->body }}</p>
 
-                <button wire:click="startReply" class="text-gray-400 hover:text-gray-200">
-                    <i class="fa-solid fa-reply"></i> Reply
-                </button>
+                @if (!$comment->commentable->is_locked)
+                    <button wire:click="startReply" class="text-gray-400 hover:text-gray-200">
+                        <i class="fa-solid fa-reply"></i> Reply
+                    </button>
+                @endif
 
-                @if ($replying)
+                @if ($replying && !$comment->commentable->is_locked)
                     <livewire:comment.create-comment :post="$comment->commentable" :parentId="$comment->id" :key="'reply-' . $comment->id" />
                 @endif
             @endif

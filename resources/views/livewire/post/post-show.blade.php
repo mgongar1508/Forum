@@ -30,6 +30,13 @@
                     <i class="fa-solid fa-thumbtack"></i>
                     {{ $post->is_pinned ? 'Unpin' : 'Pin' }}
                 </button>
+                <button wire:click="toggleLock({{ $post->id }})"
+                    class="px-2 py-1.5 rounded-lg text-sm flex items-center gap-2
+                    {{ $post->is_locked ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-600 hover:bg-gray-700 text-white' }}">
+
+                    <i class="fa-solid fa-ban"></i>
+                    {{ $post->is_locked ? 'Unblock' : 'Block' }}
+                </button>
             @endif
         </div>
 
@@ -123,7 +130,13 @@
         <hr class="border-gray-700" />
 
         <!-- Comment Input -->
-        <livewire:comment.create-comment :post="$post" />
+        @if (!$post->is_locked)
+            <livewire:comment.create-comment :post="$post" />
+        @else
+            <div class="p-4 bg-red-900/40 border border-red-700 rounded-lg text-red-300 text-sm">
+                Comments are disabled for this post.
+            </div>
+        @endif
 
         <!-- Comments List -->
         <div class="space-y-6 mt-4">

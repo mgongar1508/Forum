@@ -13,7 +13,9 @@ class CommentItem extends Component
     public Comment $comment;
 
     public $editing = false;
+
     public $replying = false;
+
     public $editBody = '';
 
     public $collapsed = false;
@@ -88,6 +90,10 @@ class CommentItem extends Component
             return redirect()->route('login');
         }
 
+        if ($this->comment->commentable->is_locked) {
+            return; // or abort(403)
+        }
+
         $this->replying = true;
     }
 
@@ -100,6 +106,11 @@ class CommentItem extends Component
 
     public function render()
     {
+        // Auto-close reply if post gets locked
+        if ($this->comment->commentable->is_locked) {
+            $this->replying = false;
+        }
+
         return view('livewire.comment.comment-item');
     }
 }
