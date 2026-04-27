@@ -7,36 +7,60 @@
     @endphp
     <div class="max-w-3xl mx-auto p-4 space-y-6 text-gray-200">
 
-        <!-- Post Header -->
-        <div class="flex items-center gap-3 text-sm text-gray-400">
-            <img src="{{ Storage::url($post->user->profile_photo_path) }}" class="w-8 h-8 rounded-full" />
-            <span class="font-semibold text-gray-300">{{ $post->user->name }}</span>
-            <span>•</span>
-            <span>{{ $post->created_at }}</span>
-            <span>•</span>
-            <span class="text-blue-600 font-medium"><a href="{{ route('subforum.view', $post->subforum->slug) }}">
-                    {{ $post->subforum->name }}
-                </a></span>
+        <!-- Compact Post Header -->
+        <div class="flex items-center flex-wrap gap-2 text-xs text-gray-400">
+
+            <!-- Avatar -->
+            <img src="{{ Storage::url($post->user->profile_photo_path) }}" class="w-6 h-6 rounded-full" />
+
+            <!-- Username -->
+            <span class="font-semibold text-gray-300">
+                {{ $post->user->name }}
+            </span>
+
+            <!-- Dot -->
+            <span class="text-gray-500">•</span>
+
+            <!-- Timestamp -->
+            <span>{{ $post->created_at->diffForHumans() }}</span>
+
+            <!-- Dot -->
+            <span class="text-gray-500">•</span>
+
+            <!-- Subforum -->
+            <a href="{{ route('subforum.view', $post->subforum->slug) }}"
+                class="text-blue-500 font-medium hover:underline">
+                {{ $post->subforum->name }}
+            </a>
+
+            <!-- Update Post (Owner/Admin) -->
             @if ($user && ($user->hasRole('admin') || $user->id === $post->user_id))
-                <div>
-                    @livewire('post.update-post', ['postId' => $post->id], key($post->id))
+                <div class="ml-2">
+                    @livewire('post.update-post', ['postId' => $post->id], key('edit-' . $post->id))
                 </div>
             @endif
+
+            <!-- Admin/Mod Controls -->
             @if ($user && $user->hasAnyRole(['admin', 'moderator']))
-                <button wire:click="togglePin({{ $post->id }})"
-                    class="px-3 py-1.5 rounded-lg text-sm flex items-center gap-2
-                    {{ $post->is_pinned ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-gray-600 hover:bg-gray-700 text-white' }}">
+                <div class="flex items-center gap-1 ml-auto">
 
-                    <i class="fa-solid fa-thumbtack"></i>
-                    {{ $post->is_pinned ? 'Unpin' : 'Pin' }}
-                </button>
-                <button wire:click="toggleLock({{ $post->id }})"
-                    class="px-2 py-1.5 rounded-lg text-sm flex items-center gap-2
-                    {{ $post->is_locked ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-600 hover:bg-gray-700 text-white' }}">
+                    <!-- Pin -->
+                    <button wire:click="togglePin({{ $post->id }})"
+                        class="px-2 py-1 rounded-md text-xs flex items-center gap-1
+                {{ $post->is_pinned ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-gray-600 hover:bg-gray-700 text-white' }}">
+                        <i class="fa-solid fa-thumbtack text-[10px]"></i>
+                        {{ $post->is_pinned ? 'Unpin' : 'Pin' }}
+                    </button>
 
-                    <i class="fa-solid fa-ban"></i>
-                    {{ $post->is_locked ? 'Unblock' : 'Block' }}
-                </button>
+                    <!-- Lock -->
+                    <button wire:click="toggleLock({{ $post->id }})"
+                        class="px-2 py-1 rounded-md text-xs flex items-center gap-1
+                {{ $post->is_locked ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-600 hover:bg-gray-700 text-white' }}">
+                        <i class="fa-solid fa-ban text-[10px]"></i>
+                        {{ $post->is_locked ? 'Unblock' : 'Block' }}
+                    </button>
+
+                </div>
             @endif
         </div>
 
