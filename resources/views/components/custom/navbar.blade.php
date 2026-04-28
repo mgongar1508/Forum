@@ -20,6 +20,44 @@
             <!-- CENTER: SEARCH -->
             <livewire:main.search-bar />
 
+            @role('admin')
+                <div class="relative inline-block">
+
+                    <!-- BUTTON -->
+                    <button id="adminMenuBtn"
+                        class="flex items-center gap-2 px-2 py-1 rounded-lg
+               hover:bg-gray-100 dark:hover:bg-white/10 transition text-sm">
+
+                        <i class="fa-solid fa-shield-halved text-orange-500"></i>
+                        <span class="hidden md:block">Admin</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+                    </button>
+
+                    <!-- DROPDOWN -->
+                    <div id="adminMenu"
+                        class="hidden absolute right-0 top-full mt-2 w-48 z-50
+               bg-white dark:bg-[#1a1a1b]
+               border border-gray-200 dark:border-gray-800
+               rounded-xl shadow-lg overflow-hidden">
+
+                        <a href="{{ route('tags.index') }}"
+                            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
+                            Manage Tags
+                        </a>
+
+                        <a href="{{ route('subforums.index') }}"
+                            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
+                            Manage Subforums
+                        </a>
+
+                        <a href="#"
+                            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
+                            Manage Users
+                        </a>
+                    </div>
+                </div>
+            @endrole
+
             <!-- RIGHT SIDE -->
             <div class="flex items-center gap-4">
                 @auth
@@ -42,9 +80,9 @@
                         <button id="userMenuBtn"
                             class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition">
 
-                            <div
-                                class="w-8 h-8 rounded-full">
-                                <img class="w-8 h-8 rounded-full" src="{{ Storage::url(Auth::user()->profile_photo_path) }}"></img>
+                            <div class="w-8 h-8 rounded-full">
+                                <img class="w-8 h-8 rounded-full"
+                                    src="{{ Storage::url(Auth::user()->profile_photo_path) }}"></img>
                             </div>
 
                             <span class="hidden md:block text-sm">
@@ -61,7 +99,8 @@
                border border-gray-200 dark:border-gray-800
                rounded-xl shadow-lg">
 
-                            <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
+                            <a href="{{ route('profile.show') }}"
+                                class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
                                 Profile
                             </a>
 
@@ -106,6 +145,20 @@
     document.addEventListener('click', (e) => {
         if (!btn.contains(e.target) && !menu.contains(e.target)) {
             menu.classList.add('hidden');
+        }
+    });
+
+    //admin dropmenu
+    const adminBtn = document.getElementById('adminMenuBtn');
+    const adminMenu = document.getElementById('adminMenu');
+
+    adminBtn?.addEventListener('click', () => {
+        adminMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!adminBtn?.contains(e.target) && !adminMenu?.contains(e.target)) {
+            adminMenu?.classList.add('hidden');
         }
     });
 </script>

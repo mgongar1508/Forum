@@ -66,6 +66,10 @@
                         class="fa-solid fa-arrow-down cursor-pointer hover:text-blue-600 transition transform hover:scale-110 {{ $userLike?->type === 'Dislike' ? 'text-blue-600' : '' }}"></i>
 
                     <span class="text-gray-200 font-semibold">{{ $post->dislikes_count }}</span>
+                    <span class="flex items-center ml-2 gap-1">
+                        <i class="fa-regular fa-comments"></i>
+                        {{ $post->comments_count }}
+                    </span>
 
                     <div class="ml-6 flex gap-2">
                         @foreach ($post->tags as $tag)

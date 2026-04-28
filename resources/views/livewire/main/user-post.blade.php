@@ -70,6 +70,10 @@
 
                         <span class="font-semibold">{{ $post->dislikes_count }}</span>
                     </div>
+                    <span class="flex items-center ml-2 gap-1">
+                        <i class="fa-regular fa-comments"></i>
+                        {{ $post->comments_count }}
+                    </span>
                 </div>
 
                 <div class="flex flex-wrap gap-1 mt-2">

@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "bilions/faker-images": "^1.0",
+        "kaishiyoku/laravel-color-validation": "^4.0",
         "laravel/framework": "^12.0",
         "laravel/jetstream": "^5.4",
         "laravel/reverb": "^1.0",
