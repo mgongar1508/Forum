@@ -35,11 +35,14 @@
             </div>
 
             <div>
-                <h2 class="text-xs font-semibold uppercase text-gray-500 mb-2">
-                    Followed Forums
-                </h2>
+                <button
+                    class="w-full flex items-center justify-between text-xs font-semibold uppercase text-gray-500 mb-2"
+                    data-collapse-target="followedList">
+                    <span>Followed Forums</span>
+                    <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </button>
 
-                <div class="space-y-1">
+                <div id="followedList" class="space-y-1 overflow-hidden transition-all duration-300">
                     @foreach ($followed as $item)
                         <a href="{{ route('subforum.view', $item->slug) }}"
                             class="cursor-pointer block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
@@ -50,11 +53,14 @@
             </div>
 
             <div>
-                <h2 class="text-xs font-semibold uppercase text-gray-500 mb-2">
-                    All Forums
-                </h2>
+                <button
+                    class="w-full flex items-center justify-between text-xs font-semibold uppercase text-gray-500 mb-2"
+                    data-collapse-target="allList">
+                    <span>All Forums</span>
+                    <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </button>
 
-                <div class="space-y-1">
+                <div id="allList" class="space-y-1 overflow-hidden transition-all duration-300">
                     @foreach ($all as $item)
                         <a href="{{ route('subforum.view', $item->slug) }}"
                             class="cursor-pointer block px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition">
@@ -63,7 +69,6 @@
                     @endforeach
                 </div>
             </div>
-
         </div>
     </aside>
 </div>
@@ -75,18 +80,39 @@
 
         let open = true;
 
+        // Sidebar toggle
         toggleBtn.addEventListener('click', () => {
             open = !open;
 
-            // Toggle the sidebar position
             sidebar.classList.toggle('-translate-x-full');
 
-            // Update the icon
             if (open) {
                 icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
             } else {
                 icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
             }
+        });
+
+        // Collapsible sections
+        document.querySelectorAll('[data-collapse-target]').forEach(button => {
+            const targetId = button.getAttribute('data-collapse-target');
+            const target = document.getElementById(targetId);
+            const chevron = button.querySelector('i');
+
+            // Start expanded
+            target.style.maxHeight = target.scrollHeight + 'px';
+
+            button.addEventListener('click', () => {
+                const isOpen = target.style.maxHeight && target.style.maxHeight !== '0px';
+
+                if (isOpen) {
+                    target.style.maxHeight = '0px';
+                    chevron.classList.add('rotate-180');
+                } else {
+                    target.style.maxHeight = target.scrollHeight + 'px';
+                    chevron.classList.remove('rotate-180');
+                }
+            });
         });
     });
 </script>
