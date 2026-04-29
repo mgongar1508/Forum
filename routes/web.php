@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\SubforumController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\UserController;
 use App\Livewire\Main\HomeFeed;
 use App\Livewire\Main\SearchResult;
 use App\Livewire\Main\SubForum;
@@ -31,5 +32,13 @@ Route::middleware([
     ->prefix('admin')
     ->group(function () {
         Route::resource('subforums', SubforumController::class);
+    });
+
+    Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->group(function () {
+        Route::get('users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::put('users/{user}/roles', [UserController::class, 'updateRoles'])->name('admin.users.roles');
+        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
     });
 });

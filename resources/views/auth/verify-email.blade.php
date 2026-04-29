@@ -12,7 +12,7 @@
 
                 <!-- LOGO -->
                 <div class="flex justify-center mb-6">
-                    <x-authentication-card-logo />
+                    <img src="{{ asset('storage/images/logo/s0nus.png') }}" alt="logo" class="h-32 w-auto" />
                 </div>
 
                 <!-- DESCRIPTION -->

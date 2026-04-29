@@ -8,11 +8,7 @@
             <div class="flex items-center gap-6">
 
                 <a href="/" class="flex items-center gap-2 font-bold text-lg">
-
-                    <i class="fa-solid fa-comments text-orange-500"></i>
-
-                    <span>{{ config('app.name') }}</span>
-
+                    <img src="{{ asset('storage/images/logo/s0nus.png') }}" alt="logo" class="h-32 w-auto" />
                 </a>
 
             </div>
@@ -50,7 +46,7 @@
                             Manage Subforums
                         </a>
 
-                        <a href="#"
+                        <a href="{{ route('admin.users.index')}}"
                             class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/10">
                             Manage Users
                         </a>
@@ -64,14 +60,6 @@
 
                     <!-- CREATE POST -->
                     @livewire('post.create-post')
-
-                    <!-- NOTIFICATIONS -->
-                    <button
-                        class="relative text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition">
-
-                        <i class="fa-regular fa-bell text-lg"></i>
-
-                    </button>
 
                     <!-- USER DROPDOWN -->
                     <div class="relative inline-block">
