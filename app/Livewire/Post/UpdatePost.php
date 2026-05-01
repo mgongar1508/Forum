@@ -16,6 +16,8 @@ class UpdatePost extends Component
 
     public $images = [];
 
+    public $newImages = [];
+
     public UpdatePostForm $uform;
 
     public bool $openUpdate = false;
@@ -54,6 +56,7 @@ class UpdatePost extends Component
         $this->cancel();
 
         $this->dispatch('message', 'Post Updated');
+        $this->dispatch('evtPostUpdated')->to(PostShow::class);
         $this->dispatch('evtpostU')->to(PostShow::class);
     }
 
@@ -68,6 +71,16 @@ class UpdatePost extends Component
             unset($this->images[$index]);
             $this->images = array_values($this->images);
         }
+    }
+
+    public function updatedNewImages()
+    {
+        $this->images = array_merge(
+            $this->images ?? [],
+            $this->newImages
+        );
+
+        $this->newImages = [];
     }
 
     public function cancel()

@@ -29,7 +29,13 @@ class PostShow extends Component
     public function refreshComments()
     {
         $this->loadComments();
+        $this->loadPost();
         $this->commentsVersion++;
+    }
+
+    public function loadPost()
+    {
+        $this->post = Post::with('images', 'user')->find($this->post->id);
     }
 
     public function loadComments()

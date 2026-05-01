@@ -15,6 +15,8 @@ class CreatePost extends Component
 
     public CreatePostForm $cform;
 
+    public array $newImages = [];
+
     public bool $openCreate = false;
 
     public function render()
@@ -42,5 +44,15 @@ class CreatePost extends Component
     {
         $this->openCreate = false;
         $this->cform->cancelForm();
+    }
+
+    public function updatedNewImages()
+    {
+        $this->cform->images = array_merge(
+            $this->cform->images ?? [],
+            $this->newImages
+        );
+
+        $this->newImages = [];
     }
 }

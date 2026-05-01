@@ -22,34 +22,46 @@
             <x-input-error for="cform.title" />
 
             {{-- IMAGES --}}
+            {{-- IMAGES --}}
             <div class="mb-4">
-                <label for="uploadImages"
-                    class="inline-flex items-center px-4 py-2 bg-gray-700 text-gray-200 rounded-lg cursor-pointer
-               hover:bg-gray-600 transition border border-gray-600">
-                    <i class="fa-solid fa-upload mr-2 text-blue-400"></i>
-                    Select Images
+                <label
+                    class="flex items-center justify-center gap-2 px-4 py-3
+               bg-gray-800 border border-dashed border-gray-600
+               text-gray-300 rounded-xl cursor-pointer
+               hover:border-blue-500 hover:bg-gray-700 transition">
+
+                    <i class="fa-solid fa-image text-blue-400"></i>
+                    <span class="text-sm font-medium">Add Images</span>
+
+                    <input type="file" multiple wire:model="newImages" class="hidden" />
                 </label>
 
-                <input id="uploadImages" type="file" multiple wire:model="cform.images" class="hidden" />
+                <p class="text-xs text-gray-500 mt-1">
+                    Max 10 images · 2MB each
+                </p>
 
-                <x-input-error for="cform.images" />
-                <x-input-error for="cform.images.*" />
+                <x-input-error for="newImages" />
+                <x-input-error for="newImages.*" />
             </div>
+
             {{-- PREVIEW --}}
-            @if ($cform->images)
-                <div class="grid grid-cols-3 gap-4 mt-2">
-                    @foreach ($cform->images as $index => $image )
-                        <div class="relative">
-                            <img src="{{ $image->temporaryUrl() }}" class="rounded-lg border border-gray-700">
-                            <button type="button" wire:click="removeImage({{ $index }})"
-                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700 transition-colors shadow-lg">
-                                <i class="fa-solid fa-xmark text-xs"></i>
-                            </button>
+            @if (!empty($cform->images))
+                <div class="grid grid-cols-3 gap-4 mt-2 mb-6">
+                    @foreach ($cform->images as $index => $image)
+                        <div class="relative" wire:key="img-{{ $index }}">
+                            @if (method_exists($image, 'temporaryUrl'))
+                                <img src="{{ $image->temporaryUrl() }}"
+                                    class="rounded-lg border-2 border-blue-500/50 object-cover h-24 w-full">
+
+                                <button type="button" wire:click="removeImage({{ $index }})"
+                                    class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700 transition shadow-lg">
+                                    ✕
+                                </button>
+                            @endif
                         </div>
                     @endforeach
                 </div>
             @endif
-
             {{-- BODY --}}
             <x-label value="body" for="body" class="mb-1 text-gray-300" />
             <textarea id="body" rows="6" class="w-full rounded-lg mb-4 bg-gray-800 text-gray-100 border-gray-700"

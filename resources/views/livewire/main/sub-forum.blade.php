@@ -65,8 +65,7 @@
 
                         <a href="{{ route('post.view', $post->id) }}">
                             <div class="h-[38px] overflow-hidden">
-                                <h3
-                                    class="font-semibold leading-tight line-clamp-2 hover:text-blue-600 transition">
+                                <h3 class="font-semibold leading-tight line-clamp-2 hover:text-blue-600 transition">
                                     {{ $post->title }}
                                 </h3>
                             </div>
@@ -105,7 +104,15 @@
 
                     @if ($post->images->isNotEmpty())
                         <div class="mb-4 relative w-full max-w-2xl mx-auto">
-                            <img class="rounded-xl " src="{{ Storage::url($post->images->first()->name) }}" />
+
+                            <!-- Fixed frame -->
+                            <div class="relative w-full aspect-[16/9] overflow-hidden rounded-xl bg-gray-900">
+
+                                <img src="{{ Storage::url($post->images->first()->name) }}"
+                                    class="absolute inset-0 w-full h-full object-cover" alt="Post image" />
+
+                            </div>
+
                         </div>
                     @else
                         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">

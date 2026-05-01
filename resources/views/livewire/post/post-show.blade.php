@@ -69,36 +69,44 @@
             {{ $post->title }}
         </h1>
 
-        <div class="mt-4 relative w-full max-w-2xl mx-auto">
+        <div class="mt-4 relative w-full max-w-2xl mx-auto h-full">
             @if ($post->images->count() > 0)
-                <div class="overflow-hidden rounded-lg">
+
+                <!-- Fixed frame -->
+                <div class="relative w-full aspect-[16/9] overflow-hidden rounded-lg bg-gray-900">
                     <img id="post-image" src="{{ Storage::url($post->images[0]->name) }}" alt="Post image"
-                        class="w-full h-auto object-cover cursor-pointer">
+                        class="absolute inset-0 w-full h-full object-cover cursor-pointer">
                 </div>
 
-                <!-- Left / Right Buttons -->
+                <!-- Left button -->
                 <button id="prev-btn"
-                    class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white px-2 py-1 rounded hover:bg-opacity-75">
+                    class="absolute top-1/2 left-2 -translate-y-1/2 
+                   bg-gray-700/60 text-white px-2 py-1 rounded 
+                   hover:bg-gray-700">
                     ‹
                 </button>
 
+                <!-- Right button -->
                 <button id="next-btn"
-                    class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white px-2 py-1 rounded hover:bg-opacity-75">
+                    class="absolute top-1/2 right-2 -translate-y-1/2 
+                   bg-gray-700/60 text-white px-2 py-1 rounded 
+                   hover:bg-gray-700">
                     ›
                 </button>
 
                 <!-- Counter -->
                 <div id="image-counter"
-                    class="absolute bottom-2 right-2 bg-gray-700 bg-opacity-50 text-white px-2 py-1 rounded text-xs">
+                    class="absolute bottom-2 right-2 bg-gray-700/60 text-white px-2 py-1 rounded text-xs">
                     1 / {{ $post->images->count() }}
                 </div>
 
-                <!-- Store image paths in a hidden element -->
+                <!-- Hidden image list -->
                 <ul id="image-list" class="hidden">
                     @foreach ($post->images as $image)
                         <li>{{ Storage::url($image->name) }}</li>
                     @endforeach
                 </ul>
+
             @endif
         </div>
 
@@ -133,12 +141,6 @@
                     class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-green-400 opacity-0 transition-opacity duration-300 pointer-events-none">
                     Copied
                 </span>
-            </button>
-
-            <!-- Save -->
-            <button class="flex items-center gap-2 hover:text-gray-200">
-                <i class="fa-regular fa-bookmark"></i>
-                <span class="text-sm">Save</span>
             </button>
 
             @if ($user && ($user->hasRole('admin') || $user->id === $post->user_id))

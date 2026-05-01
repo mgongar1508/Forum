@@ -24,20 +24,21 @@
                     <x-input-error for="uform.title" />
 
                     {{-- IMAGES --}}
-                    <div class="relative inline-block mb-4">
-                        <label for="uploadImages"
-                            class="inline-flex items-center px-4 py-2 bg-gray-700 text-gray-200 rounded-lg cursor-pointer
-                                hover:bg-gray-600 transition border border-gray-600">
-                            <i class="fa-solid fa-upload mr-2 text-blue-400"></i>
-                            Select Images
+                    <div class="mb-4">
+                        <label
+                            class="flex items-center justify-center gap-2 px-4 py-3
+               bg-gray-800 border border-dashed border-gray-600
+               text-gray-300 rounded-xl cursor-pointer
+               hover:border-blue-500 hover:bg-gray-700 transition">
+
+                            <i class="fa-solid fa-image text-blue-400"></i>
+                            <span class="text-sm font-medium">Add Images</span>
+
+                            <input type="file" multiple wire:model="newImages" class="hidden" />
                         </label>
 
-                        <input id="uploadImages" type="file" multiple wire:model.live="images"
-                            wire:key="file-input-{{ $postId }}-{{ $openUpdate ? 'open' : 'closed' }}"
-                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
-
-                        <x-input-error for="images" />
-                        <x-input-error for="images.*" />
+                        <x-input-error for="newImages" />
+                        <x-input-error for="newImages.*" />
                     </div>
                     {{-- PREVIEW NEW IMAGES --}}
                     @if (!empty($images))
