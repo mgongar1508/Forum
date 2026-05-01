@@ -75,5 +75,7 @@ class HomeFeed extends Component
             'post_id' => $postId,
             'type' => $given,
         ]);
+
+        $this->dispatch('$refresh');
     }
 }
